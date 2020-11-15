@@ -13,11 +13,25 @@ func IsEqual(a, b []int) bool {
 	return true
 }
 
+func IsEqual16(a, b []uint16) bool {
+	size := len(a)
+	if size != len(b) {
+		return false
+	}
+	for i := 0; i < size; i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func IntersectEx(r, a, b []int) []int {
 	asize := len(a)
 	bsize := len(b)
 	i := 0
 	j := 0
+	r = r[:0]
 	for i < asize && j < bsize {
 		if a[i] < b[j] {
 			i++
@@ -48,6 +62,7 @@ func UnionAllEx(r, a, b []int) []int {
 	bsize := len(b)
 	i := 0
 	j := 0
+	r = r[:0]
 	for i < asize && j < bsize {
 		if a[i] < b[j] {
 			r = append(r, a[i])
@@ -85,6 +100,7 @@ func UnionEx(r, a, b []int) []int {
 	bsize := len(b)
 	i := 0
 	j := 0
+	r = r[:0]
 	for i < asize && j < bsize {
 		v := a[i]
 		if v > b[j] {
@@ -158,6 +174,7 @@ func ExceptEx(r, a, b []int) []int {
 	j := 0
 	asize := len(a)
 	bsize := len(b)
+	r = r[:0]
 	for i < asize {
 		uniq := true
 		for j < bsize {
@@ -209,4 +226,29 @@ func ExceptInpl(a, b []int) []int {
 		i++
 	}
 	return a[:k]
+}
+
+func Compact32Ex(r []uint16, a []uint32) []uint16 {
+	i := 0
+	j := uint16(0)
+	asize := len(a)
+	r = append(r[:0], 0, 0)
+	for i < asize {
+		l := uint16(a[i])
+		h := uint16(a[i] >> 16)
+		if r[j] != h {
+			j += r[j+1] + 2
+			r = append(r, h, 0)
+		}
+		r[j+1]++
+		r = append(r, l)
+		i++
+	}
+	return r
+}
+
+func Compact32(a []uint32) []uint16 {
+	size := len(a)
+	r := make([]uint16, 0, (size >> 2))
+	return Compact32Ex(r, a)
 }

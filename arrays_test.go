@@ -105,3 +105,9 @@ func TestExcept(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCompact32(t *testing.T) {
+	if !IsEqual16(Compact32([]uint32{1, 2, 3, 4, 5}), []uint16{0, 5, 1, 2, 3, 4, 5}) {
+		t.Fail()
+	}
+}
