@@ -231,9 +231,9 @@ func ExceptInpl(a, b []int) []int {
 func Compact32Ex(r []uint16, a []uint32) []uint16 {
 	i := 0
 	j := uint16(0)
-	asize := len(a)
+	size := len(a)
 	r = append(r[:0], 0, 0)
-	for i < asize {
+	for i < size {
 		l := uint16(a[i])
 		h := uint16(a[i] >> 16)
 		if r[j] != h {
